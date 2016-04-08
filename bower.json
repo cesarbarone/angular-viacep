@@ -1,0 +1,31 @@
+{
+  "name": "angular-viacep",
+  "description": "Módulo Angular para integração com a WebService ViaCep",
+  "main": "index.js",
+  "authors": [
+    "César Barone <cesar.bmcosta@gmail.com> (https://github.com/cesarbarone)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "via",
+    "cep",
+    "ViaCEP"
+  ],
+  "homepage": "https://github.com/cesarbarone/angular-viacep",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.x"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.x",
+    "angular-scenario": "1.x"
+  }
+}
