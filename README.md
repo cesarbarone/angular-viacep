@@ -1,3 +1,3 @@
 # cb-viacep
 
-# Serviço de integração do Angular com o serviço ViaCEP
+# Serviço Anngular para consultar o WS ViaCEP
