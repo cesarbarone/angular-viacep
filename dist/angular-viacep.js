@@ -1,10 +1,10 @@
 angular.module('angular.viacep', []);
 
-angular.module('angular.viacep').factory('cep', [
-  '$http', function($http) {
+angular.module('angular.viacep').factory('viaCEP', [
+  '$http', '$q', function($http, $q) {
     var _get;
     _get = function(cepValue) {
-      var formatedCep, viaCepUrl;
+      var deferred, formatedCep, viaCepUrl;
       if (cepValue === void 0) {
         throw new TypeError("CEP can't be undefined");
       }
@@ -16,7 +16,17 @@ angular.module('angular.viacep').factory('cep', [
       }
       formatedCep = cepValue.replace(/\D/g, '');
       viaCepUrl = "https://viacep.com.br/ws/" + formatedCep + "/json/";
-      return $http.get(viaCepUrl);
+      deferred = $q.defer();
+      $http.get(viaCepUrl).then(function(response) {
+        var raw;
+        raw = response.data;
+        if (raw.erro) {
+          return deferred.reject('CEP not found');
+        } else {
+          return deferred.resolve(raw);
+        }
+      });
+      return deferred.promise;
     };
     return {
       get: _get
@@ -24,18 +34,18 @@ angular.module('angular.viacep').factory('cep', [
   }
 ]);
 
-angular.module('angular.viacep').directive('viacep', [
-  'cep', 'viacepHelper', function(cep, viacepHelper) {
+angular.module('angular.viacep').directive('viaCep', [
+  'viaCEPHelper', function(viaCEPHelper) {
     return {
       restrict: 'A',
       require: 'ngModel',
       scope: {
-        viacepKey: '@viacep'
+        viacepKey: '@viaCep'
       },
       link: function(scope, element, attrs, ngModelController) {
         var _get;
         _get = function(cepValue) {
-          return viacepHelper.get(cepValue).then(function() {
+          return viaCEPHelper.get(cepValue).then(function() {
             return ngModelController.$setValidity('cep', true);
           }, function() {
             return ngModelController.$setValidity('cep', false);
@@ -48,15 +58,15 @@ angular.module('angular.viacep').directive('viacep', [
             return _get(cepValue);
           });
         } else {
-          return viacepHelper.registerMapper(scope.viacepKey, ngModelController);
+          return viaCEPHelper.registerMapper(scope.viacepKey, ngModelController);
         }
       }
     };
   }
 ]);
 
-angular.module('angular.viacep').factory('viacepHelper', [
-  'cep', '$q', function(cep, $q) {
+angular.module('angular.viacep').factory('viaCEPHelper', [
+  'viaCEP', '$q', function(viaCEP, $q) {
     var _fillAddress, _get, _isValidCep, _isValidKey, _mappers, _registerMapper, _validKeys, service;
     service = {};
     _mappers = {};
@@ -82,21 +92,11 @@ angular.module('angular.viacep').factory('viacepHelper', [
       return results;
     };
     _get = function(cepValue) {
-      var deferred;
-      deferred = $q.defer();
       if (_isValidCep(cepValue)) {
-        cep.get(cepValue).then(function(response) {
-          var raw;
-          raw = response.data;
-          if (raw.erro) {
-            return deferred.reject('CEP not found');
-          } else {
-            deferred.resolve('CEP found');
-            return _fillAddress(raw);
-          }
+        return viaCEP.get(cepValue).then(function(response) {
+          return _fillAddress(response);
         });
       }
-      return deferred.promise;
     };
     _isValidKey = function(viacepKey) {
       var index;

@@ -23,37 +23,37 @@
 </head>
 <body ng-app="demo">
   <form name="form" ng-controller="ctrl">
-    <label for="zipcode">CEP {{ form.zipcode.$error }}</label>
-    <input type="text" name="zipcode" ng-model="address.zipcode" viacep="cep">
+    <label for="zipcode">CEP</label>
+    <input type="text" name="zipcode" ng-model="address.zipcode" via-cep="cep">
     <span ng-show="form.zipcode.$error.cep">Cep inválido</span>
     <br>
     <br>
     <label for="street">Logradouro</label>
-    <input type="text" name="street" ng-model="address.street" viacep="logradouro" disabled>
+    <input type="text" name="street" ng-model="address.street" via-cep="logradouro" disabled>
     <br>
     <br>
     <label for="neighborhood">Bairro</label>
-    <input type="text" name="neighborhood" ng-model="address.neighborhood" viacep="bairro" disabled>
+    <input type="text" name="neighborhood" ng-model="address.neighborhood" via-cep="bairro" disabled>
     <br>
     <br>
     <label for="uf">UF</label>
-    <input type="text" name="uf" ng-model="address.uf" viacep="uf" disabled>
+    <input type="text" name="uf" ng-model="address.uf" via-cep="uf" disabled>
     <br>
     <br>
     <label for="city">Cidade</label>
-    <input type="text" name="city" ng-model="address.city" viacep="localidade" disabled>
+    <input type="text" name="city" ng-model="address.city" via-cep="localidade" disabled>
     <br>
     <br>
     <label for="unit">Unidade</label>
-    <input type="text" name="unit" ng-model="address.unit" viacep="unidade" disabled>
+    <input type="text" name="unit" ng-model="address.unit" via-cep="unidade" disabled>
     <br>
     <br>
     <label for="ibge">IBGE</label>
-    <input type="text" name="ibge" ng-model="address.ibge" viacep="ibge" disabled>
+    <input type="text" name="ibge" ng-model="address.ibge" via-cep="ibge" disabled>
     <br>
     <br>
     <label for="gia">GIA</label>
-    <input type="text" name="gia" ng-model="address.gia" viacep="gia" disabled>    
+    <input type="text" name="gia" ng-model="address.gia" via-cep="gia" disabled>
   </form>
 </body>
 </html>

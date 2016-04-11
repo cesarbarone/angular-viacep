@@ -3,34 +3,42 @@ angular
 
 angular
   .module('angular.viacep')
-  .factory 'cep', [
+  .factory 'viaCEP', [
     '$http'
-    ($http) ->
+    '$q'
+    ($http, $q) ->
       _get = (cepValue) ->
         throw new TypeError "CEP can't be undefined" if cepValue is undefined
         throw new TypeError "CEP can't be empty" if cepValue is ''
         throw new TypeError "CEP can't be null" if cepValue is null
         formatedCep = cepValue.replace(/\D/g, '')
         viaCepUrl = "https://viacep.com.br/ws/#{formatedCep}/json/"
+        deferred = $q.defer()
         $http.get(viaCepUrl)
+        .then (response) ->
+          raw = response.data
+          if raw.erro
+            deferred.reject('CEP not found')
+          else
+            deferred.resolve(raw)
+        deferred.promise
 
       get: _get
   ]
 
 angular
   .module 'angular.viacep'
-  .directive 'viacep', [
-    'cep'
-    'viacepHelper'
-    (cep, viacepHelper) ->
+  .directive 'viaCep', [
+    'viaCEPHelper'
+    (viaCEPHelper) ->
       restrict: 'A'
       require: 'ngModel'
       scope:
-        viacepKey: '@viacep'
+        viacepKey: '@viaCep'
       link: (scope, element, attrs, ngModelController) ->
 
         _get = (cepValue) ->
-          viacepHelper.get(cepValue).then(() ->
+          viaCEPHelper.get(cepValue).then(() ->
             ngModelController.$setValidity('cep', true)
           , () ->
             ngModelController.$setValidity('cep', false)
@@ -43,15 +51,15 @@ angular
             _get(cepValue)
           )
         else
-          viacepHelper.registerMapper(scope.viacepKey, ngModelController)
+          viaCEPHelper.registerMapper(scope.viacepKey, ngModelController)
   ]
 
 angular
   .module 'angular.viacep'
-  .factory 'viacepHelper', [
-    'cep'
+  .factory 'viaCEPHelper', [
+    'viaCEP'
     '$q'
-    (cep, $q) ->
+    (viaCEP, $q) ->
       service = {}
       _mappers = {}
       _validKeys = [
@@ -78,17 +86,10 @@ angular
             _mappers[key].$render()
 
       _get = (cepValue) ->
-        deferred = $q.defer()
         if _isValidCep(cepValue)
-          cep.get(cepValue)
+          viaCEP.get(cepValue)
           .then (response) ->
-            raw = response.data
-            if raw.erro
-              deferred.reject('CEP not found')
-            else
-              deferred.resolve('CEP found')
-              _fillAddress(raw)
-        deferred.promise
+            _fillAddress(response)
 
       _isValidKey = (viacepKey) ->
         index = _validKeys.indexOf(viacepKey)
