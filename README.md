@@ -12,10 +12,10 @@
 ### Include this line in your index.html
     <script src="bower_components/angular-viacep/dist/angular-viacep.min.js"></script>
 
-### How to use directive
+### How to use directive(recommended)
 #### Just see [demo](https://plnkr.co/edit/he6Kvp?p=info)
 
-### How to use service
+### Or, if you prefer, use only service
     angular.module('app', ['angular.viacep'])
     angular.module('app').controller('ctrl', function ctrl($scope, viaCEP) {
         viaCEP.get('08465-312').then(function(response){
