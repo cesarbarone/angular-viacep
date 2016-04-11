@@ -36,7 +36,7 @@ angular.module('angular.viacep').directive('viacep', [
         var _get;
         viacepHelper.registerMapper(scope.viacepKey, ngModelController);
         _get = function(cepValue) {
-          return cep.get(cepValue);
+          return viacepHelper.get(cepValue);
         };
         if (scope.viacepKey === 'cep') {
           return scope.$watch(function() {

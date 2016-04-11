@@ -31,7 +31,7 @@ angular
         viacepHelper.registerMapper(scope.viacepKey, ngModelController)
 
         _get = (cepValue) ->
-          cep.get(cepValue)
+          viacepHelper.get(cepValue)
 
         if scope.viacepKey == 'cep'
           scope.$watch(() ->
