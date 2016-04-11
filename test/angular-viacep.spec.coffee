@@ -111,7 +111,16 @@ describe 'angular-viacep:viacepHelper', ->
         ngModelController =
           $setViewValue: ->
             return null
+          $render: ->
+            return null
+          $commitViewValue: ->
+            return null
+
         spyOn(ngModelController, '$setViewValue')
+        spyOn(ngModelController, '$render')
+        spyOn(ngModelController, '$commitViewValue')
         @viacepHelper.registerMapper(key, ngModelController)
         @viacepHelper.fillAddress(@address)
         expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
+        expect(ngModelController.$render).toHaveBeenCalled()
+        expect(ngModelController.$commitViewValue).toHaveBeenCalled()
