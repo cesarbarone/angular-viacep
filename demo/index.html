@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Angular Mask Demo</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+  <script src="../dist/angular-viacep.js"></script>
+  <script>
+    angular.module('demo', ['angular.viacep'])
+      .controller('ctrl', function ctrl($scope) {
+        $scope.address = {
+            zipcode: null,
+            street: null,
+            neighborhood: null,
+            uf: null,
+            city: null,
+            unit: null,
+            ibge: null,
+            gia: null,
+        }
+      });
+  </script>
+</head>
+<body ng-app="demo">
+  <form name="form" ng-controller="ctrl">
+    <label for="zipcode">CEP {{ form.zipcode.$error }}</label>
+    <input type="text" name="zipcode" ng-model="address.zipcode" viacep="cep">
+    <span ng-show="form.zipcode.$error.cep">Cep inválido</span>
+    <br>
+    <br>
+    <label for="street">Logradouro</label>
+    <input type="text" name="street" ng-model="address.street" viacep="logradouro" disabled>
+    <br>
+    <br>
+    <label for="neighborhood">Bairro</label>
+    <input type="text" name="neighborhood" ng-model="address.neighborhood" viacep="bairro" disabled>
+    <br>
+    <br>
+    <label for="uf">UF</label>
+    <input type="text" name="uf" ng-model="address.uf" viacep="uf" disabled>
+    <br>
+    <br>
+    <label for="city">Cidade</label>
+    <input type="text" name="city" ng-model="address.city" viacep="localidade" disabled>
+    <br>
+    <br>
+    <label for="unit">Unidade</label>
+    <input type="text" name="unit" ng-model="address.unit" viacep="unidade" disabled>
+    <br>
+    <br>
+    <label for="ibge">IBGE</label>
+    <input type="text" name="ibge" ng-model="address.ibge" viacep="ibge" disabled>
+    <br>
+    <br>
+    <label for="gia">GIA</label>
+    <input type="text" name="gia" ng-model="address.gia" viacep="gia" disabled>    
+  </form>
+</body>
+</html>
+
+<style>
+  form .ng-invalid-cep {
+    border: solid 1px red;
+  }
+</style>

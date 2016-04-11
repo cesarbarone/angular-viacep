@@ -1,5 +1,6 @@
 {
   "name": "angular-viacep",
+  "version": "0.1.0",
   "description": "Módulo Angular para integração com a WebService ViaCep",
   "main": "dist/angular-viacep.js",
   "authors": [

@@ -28,7 +28,7 @@ describe 'angular-viacep::cep', ->
     beforeEach ->
       spyOn(@http, 'get')
       @formatedCep = '89160000'
-      @url = "//viacep.com.br/ws/#{@formatedCep}/json/"
+      @url = "https://viacep.com.br/ws/#{@formatedCep}/json/"
 
     it 'calls $http get method for non formated cep', ->
       @cep.get('89160-000')
@@ -43,9 +43,10 @@ describe 'angular-viacep:viacepHelper', ->
   beforeEach ->
     module 'angular.viacep'
 
-  beforeEach inject (_viacepHelper_, _cep_) ->
+  beforeEach inject (_viacepHelper_, _cep_, _$httpBackend_) ->
     @viacepHelper = _viacepHelper_
     @cep = _cep_
+    @httpBackend = _$httpBackend_
 
   describe '#get', ->
 
@@ -73,6 +74,30 @@ describe 'angular-viacep:viacepHelper', ->
       validCep = '88040560'
       @viacepHelper.get(validCep)
       expect(@cep.get).toHaveBeenCalledWith(validCep)
+
+  xdescribe '#get promise', ->
+
+    beforeEach ->
+      @cep = '99999999'
+
+    it 'should reject', ->
+      url = "https://viacep.com.br/ws/#{@cep}/json/"
+      response =
+        erro: true
+      @httpBackend.whenGET(url).respond(response)
+      promise = @viacepHelper.get(@cep)
+      spyOn(promise, 'reject')
+      @httpBackend.flush()
+      expect(promise.reject).toHaveBeenCalled()
+
+    it 'should resolve', ->
+      url = "https://viacep.com.br/ws/#{@cep}/json/"
+      response =
+        cep: @cep
+      @httpBackend.whenGET(url).respond(response)
+      promise = @viacepHelper.get(@cep)
+      spyOn(promise, 'resolve')
+      @httpBackend.flush()
 
   describe '#registerMapper', ->
 
@@ -113,14 +138,10 @@ describe 'angular-viacep:viacepHelper', ->
             return null
           $render: ->
             return null
-          $commitViewValue: ->
-            return null
 
         spyOn(ngModelController, '$setViewValue')
         spyOn(ngModelController, '$render')
-        spyOn(ngModelController, '$commitViewValue')
         @viacepHelper.registerMapper(key, ngModelController)
         @viacepHelper.fillAddress(@address)
         expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
         expect(ngModelController.$render).toHaveBeenCalled()
-        expect(ngModelController.$commitViewValue).toHa

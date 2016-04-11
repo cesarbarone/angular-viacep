@@ -15,7 +15,7 @@ angular.module('angular.viacep').factory('cep', [
         throw new TypeError("CEP can't be null");
       }
       formatedCep = cepValue.replace(/\D/g, '');
-      viaCepUrl = "//viacep.com.br/ws/" + formatedCep + "/json/";
+      viaCepUrl = "https://viacep.com.br/ws/" + formatedCep + "/json/";
       return $http.get(viaCepUrl);
     };
     return {
@@ -35,7 +35,11 @@ angular.module('angular.viacep').directive('viacep', [
       link: function(scope, element, attrs, ngModelController) {
         var _get;
         _get = function(cepValue) {
-          return viacepHelper.get(cepValue);
+          return viacepHelper.get(cepValue).then(function() {
+            return ngModelController.$setValidity('cep', true);
+          }, function() {
+            return ngModelController.$setValidity('cep', false);
+          });
         };
         if (scope.viacepKey === 'cep') {
           return scope.$watch(function() {
@@ -52,7 +56,7 @@ angular.module('angular.viacep').directive('viacep', [
 ]);
 
 angular.module('angular.viacep').factory('viacepHelper', [
-  'cep', function(cep) {
+  'cep', '$q', function(cep, $q) {
     var _fillAddress, _get, _isValidCep, _isValidKey, _mappers, _registerMapper, _validKeys, service;
     service = {};
     _mappers = {};
@@ -70,7 +74,6 @@ angular.module('angular.viacep').factory('viacepHelper', [
         key = _validKeys[i];
         if (_mappers[key] !== void 0) {
           _mappers[key].$setViewValue(address[key]);
-          _mappers[key].$commitViewValue();
           results.push(_mappers[key].$render());
         } else {
           results.push(void 0);
@@ -79,11 +82,21 @@ angular.module('angular.viacep').factory('viacepHelper', [
       return results;
     };
     _get = function(cepValue) {
+      var deferred;
+      deferred = $q.defer();
       if (_isValidCep(cepValue)) {
-        return cep.get(cepValue).then(function(response) {
-          return _fillAddress(response.data);
+        cep.get(cepValue).then(function(response) {
+          var raw;
+          raw = response.data;
+          if (raw.erro) {
+            return deferred.reject('CEP not found');
+          } else {
+            deferred.resolve('CEP found');
+            return _fillAddress(raw);
+          }
         });
       }
+      return deferred.promise;
     };
     _isValidKey = function(viacepKey) {
       var index;

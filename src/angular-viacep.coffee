@@ -11,7 +11,7 @@ angular
         throw new TypeError "CEP can't be empty" if cepValue is ''
         throw new TypeError "CEP can't be null" if cepValue is null
         formatedCep = cepValue.replace(/\D/g, '')
-        viaCepUrl = "//viacep.com.br/ws/#{formatedCep}/json/"
+        viaCepUrl = "https://viacep.com.br/ws/#{formatedCep}/json/"
         $http.get(viaCepUrl)
 
       get: _get
@@ -30,7 +30,11 @@ angular
       link: (scope, element, attrs, ngModelController) ->
 
         _get = (cepValue) ->
-          viacepHelper.get(cepValue)
+          viacepHelper.get(cepValue).then(() ->
+            ngModelController.$setValidity('cep', true)
+          , () ->
+            ngModelController.$setValidity('cep', false)
+          )
 
         if scope.viacepKey == 'cep'
           scope.$watch(() ->
@@ -46,7 +50,8 @@ angular
   .module 'angular.viacep'
   .factory 'viacepHelper', [
     'cep'
-    (cep) ->
+    '$q'
+    (cep, $q) ->
       service = {}
       _mappers = {}
       _validKeys = [
@@ -69,14 +74,21 @@ angular
         for key in _validKeys
           if _mappers[key] != undefined
             _mappers[key].$setViewValue(address[key])
-            _mappers[key].$commitViewValue()
+            # _mappers[key].$commitViewValue()
             _mappers[key].$render()
 
       _get = (cepValue) ->
+        deferred = $q.defer()
         if _isValidCep(cepValue)
           cep.get(cepValue)
           .then (response) ->
-            _fillAddress(response.data)
+            raw = response.data
+            if raw.erro
+              deferred.reject('CEP not found')
+            else
+              deferred.resolve('CEP found')
+              _fillAddress(raw)
+        deferred.promise
 
       _isValidKey = (viacepKey) ->
         index = _validKeys.indexOf(viacepKey)
