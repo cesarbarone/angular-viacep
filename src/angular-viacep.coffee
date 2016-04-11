@@ -41,7 +41,7 @@ angular
           if viaCEPHelper.isValidCep(cepValue)
             viaCEPHelper.get(cepValue).then(() ->
               ngModelController.$setValidity('cep', true)
-            , () ->
+            ,() ->
               ngModelController.$setValidity('cep', false)
             )
 
@@ -93,12 +93,15 @@ angular
             _mappers[key].$render()
 
       _get = (cepValue) ->
-        if _isValidCep(cepValue)
-          viaCEP.get(cepValue)
-          .then (response) ->
-            _fillAddress(response)
-          , (response) ->
-            _cleanAddress()
+        deferred = $q.defer()
+        viaCEP.get(cepValue)
+        .then (response) ->
+          deferred.resolve()
+          _fillAddress(response)
+        , (response) ->
+          deferred.reject()
+          _cleanAddress()
+        deferred.promise
 
       _isValidKey = (viacepKey) ->
         index = _validKeys.indexOf(viacepKey)

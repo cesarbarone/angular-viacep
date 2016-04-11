@@ -21,6 +21,7 @@ angular.module('angular.viacep').factory('viaCEP', [
         var raw;
         raw = response.data;
         if (raw.erro) {
+          console.log('erou');
           return deferred.reject('CEP not found');
         } else {
           return deferred.resolve(raw);
@@ -45,10 +46,13 @@ angular.module('angular.viacep').directive('viaCep', [
       link: function(scope, element, attrs, ngModelController) {
         var _get;
         _get = function(cepValue) {
+          console.log(cepValue);
           if (viaCEPHelper.isValidCep(cepValue)) {
             return viaCEPHelper.get(cepValue).then(function() {
+              console.log('cerrrttoo');
               return ngModelController.$setValidity('cep', true);
             }, function() {
+              console.log('errrrrado');
               return ngModelController.$setValidity('cep', false);
             });
           }
@@ -108,13 +112,16 @@ angular.module('angular.viacep').factory('viaCEPHelper', [
       return results;
     };
     _get = function(cepValue) {
-      if (_isValidCep(cepValue)) {
-        return viaCEP.get(cepValue).then(function(response) {
-          return _fillAddress(response);
-        }, function(response) {
-          return _cleanAddress();
-        });
-      }
+      var deferred;
+      deferred = $q.defer();
+      viaCEP.get(cepValue).then(function(response) {
+        deferred.resolve();
+        return _fillAddress(response);
+      }, function(response) {
+        deferred.reject();
+        return _cleanAddress();
+      });
+      return deferred.promise;
     };
     _isValidKey = function(viacepKey) {
       var index;

@@ -48,27 +48,34 @@ describe 'angular-viacep:viaCEPHelper', ->
     @viaCEP = _viaCEP_
     @httpBackend = _$httpBackend_
 
+  describe '#isValidCep', ->
+
+    it 'should not call #get from cep for empty value', ->
+      valid = @viaCEPHelper.isValidCep('')
+      expect(valid).toEqual false
+
+    it 'should not call #get from cep for null value', ->
+      valid = @viaCEPHelper.isValidCep(null)
+      expect(valid).toEqual false
+
+    it 'should not call #get from cep for undefined value', ->
+      valid = @viaCEPHelper.isValidCep(undefined)
+      expect(valid).toEqual false
+
+    it 'should not call #get from cep for invalid cep', ->
+      invalidCep = '993'
+      valid = @viaCEPHelper.isValidCep(invalidCep)
+      expect(valid).toEqual false
+
+    it 'should call #get from cep for valid cep', ->
+      validCep = '08465312'
+      valid = @viaCEPHelper.isValidCep(validCep)
+      # expect(valid).toEqual false
+
   describe '#get', ->
 
     beforeEach ->
       spyOn(@viaCEP, 'get').and.callThrough()
-
-    it 'should not call #get from cep for empty value', ->
-      @viaCEPHelper.get('')
-      expect(@viaCEP.get).not.toHaveBeenCalled()
-
-    it 'should not call #get from cep for null value', ->
-      @viaCEPHelper.get(null)
-      expect(@viaCEP.get).not.toHaveBeenCalled()
-
-    it 'should not call #get from cep for undefined value', ->
-      @viaCEPHelper.get(undefined)
-      expect(@viaCEP.get).not.toHaveBeenCalled()
-
-    it 'should not call #get from cep for invalid cep', ->
-      invalidCep = '993'
-      @viaCEPHelper.get(invalidCep)
-      expect(@viaCEP.get).not.toHaveBeenCalled()
 
     it 'should call #get from cep for valid cep', ->
       validCep = '08465312'
