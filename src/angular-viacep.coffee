@@ -66,7 +66,9 @@ angular
 
       _fillAddress = (address) ->
         for key in _validKeys
-          _mappers[key].$setViewValue(address[key]) if _mappers[key] != undefined
+          if _mappers[key] != undefined
+            _mappers[key].$setViewValue(address[key])
+            _mappers[key].$$commitViewValue()
 
       _get = (cepValue) ->
         if _isValidCep(cepValue)
