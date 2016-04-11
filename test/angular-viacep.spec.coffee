@@ -114,4 +114,4 @@ describe 'angular-viacep:viacepHelper', ->
         spyOn(ngModelController, '$setViewValue')
         @viacepHelper.registerMapper(key, ngModelController)
         @viacepHelper.fillAddress(@address)
-        expect(ngModelController.$setViewValue).toHaveBeenCalled()
+        expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
