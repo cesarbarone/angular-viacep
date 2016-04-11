@@ -69,7 +69,7 @@ angular.module('angular.viacep').factory('viacepHelper', [
         key = _validKeys[i];
         if (_mappers[key] !== void 0) {
           _mappers[key].$setViewValue(address[key]);
-          results.push(_mappers[key].$$commitViewValue());
+          results.push(_mappers[key].$commitViewValue());
         } else {
           results.push(void 0);
         }
