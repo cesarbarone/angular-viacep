@@ -17,8 +17,8 @@
 
 ### How to use service
     angular.module('app', ['angular.viacep'])
-    angular.module('app').controller('ctrl', function ctrl($scope, cep) {
-        cep('08465-312').then(function(response){
+    angular.module('app').controller('ctrl', function ctrl($scope, viaCEP) {
+        viaCEP.get('08465-312').then(function(response){
             $scope.address = response
         });
     });

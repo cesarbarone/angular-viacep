@@ -71,7 +71,7 @@ describe 'angular-viacep:viaCEPHelper', ->
       expect(@viaCEP.get).not.toHaveBeenCalled()
 
     it 'should call #get from cep for valid cep', ->
-      validCep = '88040560'
+      validCep = '08465312'
       @viaCEPHelper.get(validCep)
       expect(@viaCEP.get).toHaveBeenCalledWith(validCep)
 
