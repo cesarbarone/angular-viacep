@@ -34,7 +34,6 @@ angular.module('angular.viacep').directive('viacep', [
       },
       link: function(scope, element, attrs, ngModelController) {
         var _get;
-        viacepHelper.registerMapper(scope.viacepKey, ngModelController);
         _get = function(cepValue) {
           return viacepHelper.get(cepValue);
         };
@@ -44,6 +43,8 @@ angular.module('angular.viacep').directive('viacep', [
           }, function(cepValue) {
             return _get(cepValue);
           });
+        } else {
+          return viacepHelper.registerMapper(scope.viacepKey, ngModelController);
         }
       }
     };

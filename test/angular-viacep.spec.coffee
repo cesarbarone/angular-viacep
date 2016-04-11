@@ -123,4 +123,4 @@ describe 'angular-viacep:viacepHelper', ->
         @viacepHelper.fillAddress(@address)
         expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
         expect(ngModelController.$render).toHaveBeenCalled()
-        expect(ngModelController.$commitViewValue).toHaveBeenCalled()
+        expect(ngModelController.$commitViewValue).toHa

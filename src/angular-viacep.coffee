@@ -28,7 +28,6 @@ angular
       scope:
         viacepKey: '@viacep'
       link: (scope, element, attrs, ngModelController) ->
-        viacepHelper.registerMapper(scope.viacepKey, ngModelController)
 
         _get = (cepValue) ->
           viacepHelper.get(cepValue)
@@ -39,6 +38,8 @@ angular
           ,(cepValue) ->
             _get(cepValue)
           )
+        else
+          viacepHelper.registerMapper(scope.viacepKey, ngModelController)
   ]
 
 angular
