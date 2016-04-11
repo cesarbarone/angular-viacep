@@ -1,3 +1,4 @@
-# cb-viacep
+# angular-viacep
 
-# Serviço Anngular para consultar o WS ViaCEP
+# Serviço AngularJS para consultar o WS ViaCEP
+

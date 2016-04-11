@@ -1,7 +1,7 @@
 {
   "name": "angular-viacep",
   "description": "Módulo Angular para integração com a WebService ViaCep",
-  "main": "index.js",
+  "main": "dist/angular-viacep.js",
   "authors": [
     "César Barone <cesar.bmcosta@gmail.com> (https://github.com/cesarbarone)"
   ],
