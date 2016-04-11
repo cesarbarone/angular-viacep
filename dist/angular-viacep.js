@@ -68,7 +68,7 @@ angular.module('angular.viacep').factory('viacepHelper', [
       for (i = 0, len = _validKeys.length; i < len; i++) {
         key = _validKeys[i];
         if (_mappers[key] !== void 0) {
-          results.push(_mappers[key].$setViewValue(address.key));
+          results.push(_mappers[key].$setViewValue(address[key]));
         } else {
           results.push(void 0);
         }
