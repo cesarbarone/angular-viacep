@@ -69,6 +69,7 @@ angular
           if _mappers[key] != undefined
             _mappers[key].$setViewValue(address[key])
             _mappers[key].$commitViewValue()
+            _mappers[key].$render()
 
       _get = (cepValue) ->
         if _isValidCep(cepValue)
