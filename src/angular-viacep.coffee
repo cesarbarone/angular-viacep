@@ -38,11 +38,12 @@ angular
       link: (scope, element, attrs, ngModelController) ->
 
         _get = (cepValue) ->
-          viaCEPHelper.get(cepValue).then(() ->
-            ngModelController.$setValidity('cep', true)
-          , () ->
-            ngModelController.$setValidity('cep', false)
-          )
+          if viaCEPHelper.isValidCep(cepValue)
+            viaCEPHelper.get(cepValue).then(() ->
+              ngModelController.$setValidity('cep', true)
+            , () ->
+              ngModelController.$setValidity('cep', false)
+            )
 
         if scope.viacepKey == 'cep'
           scope.$watch(() ->
@@ -85,11 +86,19 @@ angular
             # _mappers[key].$commitViewValue()
             _mappers[key].$render()
 
+      _cleanAddress = (address) ->
+        for key in _validKeys
+          if _mappers[key] != undefined
+            _mappers[key].$setViewValue('')
+            _mappers[key].$render()
+
       _get = (cepValue) ->
         if _isValidCep(cepValue)
           viaCEP.get(cepValue)
           .then (response) ->
             _fillAddress(response)
+          , (response) ->
+            _cleanAddress()
 
       _isValidKey = (viacepKey) ->
         index = _validKeys.indexOf(viacepKey)
@@ -106,6 +115,7 @@ angular
       service.registerMapper = _registerMapper
       service.fillAddress = _fillAddress
       service.get = _get
+      service.isValidCep = _isValidCep
 
       service
   ]

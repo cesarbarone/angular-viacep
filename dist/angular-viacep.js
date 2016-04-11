@@ -45,11 +45,13 @@ angular.module('angular.viacep').directive('viaCep', [
       link: function(scope, element, attrs, ngModelController) {
         var _get;
         _get = function(cepValue) {
-          return viaCEPHelper.get(cepValue).then(function() {
-            return ngModelController.$setValidity('cep', true);
-          }, function() {
-            return ngModelController.$setValidity('cep', false);
-          });
+          if (viaCEPHelper.isValidCep(cepValue)) {
+            return viaCEPHelper.get(cepValue).then(function() {
+              return ngModelController.$setValidity('cep', true);
+            }, function() {
+              return ngModelController.$setValidity('cep', false);
+            });
+          }
         };
         if (scope.viacepKey === 'cep') {
           return scope.$watch(function() {
@@ -67,7 +69,7 @@ angular.module('angular.viacep').directive('viaCep', [
 
 angular.module('angular.viacep').factory('viaCEPHelper', [
   'viaCEP', '$q', function(viaCEP, $q) {
-    var _fillAddress, _get, _isValidCep, _isValidKey, _mappers, _registerMapper, _validKeys, service;
+    var _cleanAddress, _fillAddress, _get, _isValidCep, _isValidKey, _mappers, _registerMapper, _validKeys, service;
     service = {};
     _mappers = {};
     _validKeys = ['cep', 'logradouro', 'complemento', 'bairro', 'localidade', 'uf', 'unidade', 'ibge', 'gia'];
@@ -91,10 +93,26 @@ angular.module('angular.viacep').factory('viaCEPHelper', [
       }
       return results;
     };
+    _cleanAddress = function(address) {
+      var i, key, len, results;
+      results = [];
+      for (i = 0, len = _validKeys.length; i < len; i++) {
+        key = _validKeys[i];
+        if (_mappers[key] !== void 0) {
+          _mappers[key].$setViewValue('');
+          results.push(_mappers[key].$render());
+        } else {
+          results.push(void 0);
+        }
+      }
+      return results;
+    };
     _get = function(cepValue) {
       if (_isValidCep(cepValue)) {
         return viaCEP.get(cepValue).then(function(response) {
           return _fillAddress(response);
+        }, function(response) {
+          return _cleanAddress();
         });
       }
     };
@@ -120,6 +138,7 @@ angular.module('angular.viacep').factory('viaCEPHelper', [
     service.registerMapper = _registerMapper;
     service.fillAddress = _fillAddress;
     service.get = _get;
+    service.isValidCep = _isValidCep;
     return service;
   }
 ]);
