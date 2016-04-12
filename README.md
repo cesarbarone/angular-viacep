@@ -1,4 +1,4 @@
-# angular-viacep
+# angular-viacep  &nbsp;[![Build Status](https://travis-ci.org/cesarbarone/angular-viacep.png?branch=master)](https://travis-ci.org/cesarbarone/angular-viacep)
 
 # ViaCEP AngularJS directive and service
 
