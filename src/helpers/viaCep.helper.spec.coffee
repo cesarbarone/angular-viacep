@@ -79,7 +79,7 @@ describe 'angular-viacep:viaCepHelper', ->
       @address =
         "logradouro": "Praça da Sé"
 
-    it 'should smoke', ->
+    it 'should fill address', ->
       key = 'logradouro'
       ngModelController =
         $setViewValue: ->
@@ -96,3 +96,23 @@ describe 'angular-viacep:viaCepHelper', ->
       @viaCepHelper.fillAddress(@address, mappers)
       expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
       expect(ngModelController.$render).toHaveBeenCalled()
+
+    it 'should not override if address already exists', ->
+      key = 'logradouro'
+      ngModelController =
+        $setViewValue: ->
+          return null
+        $render: ->
+          return null
+        '$modelValue': 'Another logradouro'
+      # for key in keys
+      mappers = {
+        'logradouro': ngModelController
+      }
+
+      @viaCepHelper.fillAddress(@address, mappers)
+      spyOn(ngModelController, '$setViewValue')
+      spyOn(ngModelController, '$render')
+      @viaCepHelper.fillAddress(@address, mappers)
+      expect(ngModelController.$setViewValue).not.toHaveBeenCalled()
+      expect(ngModelController.$render).not.toHaveBeenCalled()

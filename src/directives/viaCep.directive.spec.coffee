@@ -16,7 +16,7 @@ describe 'angular-viacep::viacep', ->
     @element = @compile('<div via-cep-form><input ng-model="address.zipcode" via-cep="cep"><input ng-model="address.address" via-cep="logradouro"></div>')(@scope)
     @scope.$digest()
 
-  xit 'should fill address', ->
+  it 'should fill address', ->
     ctrl = @element.find('input').controller('ngModel')
     ctrl.$setViewValue('88054600')
     @httpBackend.flush()

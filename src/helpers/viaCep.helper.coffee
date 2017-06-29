@@ -11,9 +11,10 @@ angular
       _fillAddress = (address, mappers) ->
         for key in VALID_KEYS
           if mappers[key] != undefined
-            mappers[key].$setViewValue(address[key])
-            # mappers[key].$commitViewValue()
-            mappers[key].$render()
+            ngModelController = mappers[key]
+            if !ngModelController.$modelValue
+              ngModelController.$setViewValue(address[key])
+              ngModelController.$render()
 
       _cleanAddress = (address) ->
         for key in VALID_KEYS
