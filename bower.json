@@ -1,8 +1,8 @@
 {
   "name": "angular-viacep",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Módulo Angular para integração com a WebService ViaCep",
-  "main": "dist/angular-viacep.js",
+  "main": "dist/angular-viacep.min.js",
   "authors": [
     "César Barone <cesar.bmcosta@gmail.com> (https://github.com/cesarbarone)"
   ],
@@ -23,7 +23,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.6.x"
+    "angular": "1.5.x"
   },
   "devDependencies": {
     "angular-mocks": "1.x",
