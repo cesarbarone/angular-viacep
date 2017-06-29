@@ -2,7 +2,7 @@
 
 # ViaCEP AngularJS directive and service
 
-## See demo [here](https://plnkr.co/edit/he6Kvp?p=info)
+## See demo [here](https://plnkr.co/edit/2YkyutxNKrm99jRENNwt?p=preview)
 
 ## How to install:
 
@@ -13,7 +13,7 @@
     <script src="bower_components/angular-viacep/dist/angular-viacep.min.js"></script>
 
 ### How to use directive(recommended)
-#### Just see [demo](https://plnkr.co/edit/he6Kvp?p=info)
+#### Just see [demo](https://plnkr.co/edit/2YkyutxNKrm99jRENNwt?p=preview)
 
 ### Or, if you prefer, use only service
     angular.module('app', ['angular.viacep'])
