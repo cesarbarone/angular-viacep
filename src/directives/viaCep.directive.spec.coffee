@@ -13,7 +13,7 @@ describe 'angular-viacep::viacep', ->
     @compile = _$compile_
     @scope = _$rootScope_
     @scope.address = {}
-    @element = @compile('<div address-via-cep><input ng-model="address.zipcode" via-cep="cep"><input ng-model="address.address" via-cep="logradouro"></div>')(@scope)
+    @element = @compile('<div via-cep-form><input ng-model="address.zipcode" via-cep="cep"><input ng-model="address.address" via-cep="logradouro"></div>')(@scope)
     @scope.$digest()
 
   xit 'should fill address', ->

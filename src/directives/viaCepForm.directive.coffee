@@ -1,6 +1,6 @@
 angular
   .module 'angular.viacep'
-  .directive 'addressViaCep', [
+  .directive 'viaCepForm', [
     () ->
       restrict: 'A'
       controller: [

@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <title>Angular ViaCEP demo</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.11/angular.min.js"></script>
-  <script src="angular-viacep.min.js"></script>
-  <!-- <script src="viaCep.module.js"></script>
-  <script src="directives/addressViaCep.directive.js"></script>
+  <!-- <script src="angular-viacep.min.js"></script> -->
+  <script src="viaCep.module.js"></script>
+  <script src="directives/viaCepForm.directive.js"></script>
   <script src="directives/viaCep.directive.js"></script>
   <script src="helpers/viaCep.helper.js"></script>
-  <script src="services/viaCep.service.js"></script> -->
+  <script src="services/viaCep.service.js"></script>
   <script>
     angular.module('demo', ['angular.viacep'])
       .controller('ctrl', function ctrl($scope) {
@@ -28,7 +28,7 @@
 </head>
 <body ng-app="demo">
   <form name="form" ng-controller="ctrl">
-    <div address-via-cep>
+    <div via-cep-form>
       <div>
         Endereço: <br>
         <label for="zipcode">CEP</label>
@@ -67,7 +67,7 @@
   </form>
 
   <form name="form" ng-controller="ctrl">
-    <div address-via-cep>
+    <div via-cep-form>
       Endereço: <br>
       <label for="zipcode">CEP</label>
       <input type="text" name="zipcode" ng-model="address.zipcode" via-cep="cep">

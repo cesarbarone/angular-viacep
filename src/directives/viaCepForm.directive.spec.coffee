@@ -9,12 +9,12 @@ describe 'angular-viacep::viacep', ->
     @compile = _$compile_
     @scope = _$rootScope_
     @scope.address = {}
-    @element = @compile('<div address-via-cep></div>')(@scope)
+    @element = @compile('<div via-cep-form></div>')(@scope)
     @scope.$digest()
 
   beforeEach inject (_viaCepHelper_) ->
     @helper = _viaCepHelper_
-    @ctrl = @element.controller('addressViaCep')
+    @ctrl = @element.controller('viaCepForm')
 
   it 'should attach empty mappers', ->
     expect(@ctrl.mappers).toEqual []

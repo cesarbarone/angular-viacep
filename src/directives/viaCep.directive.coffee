@@ -4,7 +4,7 @@ angular
     'viaCepHelper'
     (viaCepHelper) ->
       restrict: 'A'
-      require: ['ngModel', '^addressViaCep']
+      require: ['ngModel', '^viaCepForm']
       scope:
         viacepKey: '@viaCep'
       link: (scope, element, attrs, controllers) ->
