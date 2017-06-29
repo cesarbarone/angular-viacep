@@ -28,8 +28,11 @@ module.exports = (config) ->
     files: [
       'bower_components/angular/angular.js'
       'bower_components/angular-mocks/angular-mocks.js'
-      'src/angular-viacep.coffee'
-      'test/angular-viacep.spec.coffee'
+      'src/viaCep.module.coffee'
+      'src/**/*'
+      # 'src/address-viacep.coffee'
+      # 'src/viaCepHelper.coffee'
+      # 'test/*'
     ]
 
     ngHtml2JsPreprocessor:
