@@ -30,3 +30,12 @@ describe 'angular-viacep::viacep', ->
     @ctrl.registerMapper('logradouro', mapper)
     expect(@ctrl.mappers['logradouro']).toBe(mapper)
 
+  describe "#get", ->
+
+    it 'should call viaCepHelper#get with mappers', ->
+      cep = '88054611'
+      spyOn(@helper, 'get')
+      @ctrl.get(cep)
+      expect(@helper.get).toHaveBeenCalledWith(cep, @ctrl.mappers)
+
+

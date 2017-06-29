@@ -4,17 +4,21 @@ angular
     'viaCepHelper'
     (viaCepHelper) ->
       restrict: 'A'
-      require: 'ngModel'
+      require: ['ngModel', '^addressViaCep']
       scope:
         viacepKey: '@viaCep'
-      link: (scope, element, attrs, ngModelController) ->
+      link: (scope, element, attrs, controllers) ->
+        ngModelController = controllers[0]
+        addressController = controllers[1]
+
         _get = (cepValue) ->
           if viaCepHelper.isValidCep(cepValue)
-            viaCepHelper.get(cepValue).then(() ->
+            addressController.get(cepValue).then(() ->
               ngModelController.$setValidity('cep', true)
             ,() ->
               ngModelController.$setValidity('cep', false)
             )
+
         if scope.viacepKey == 'cep'
           scope.$watch(() ->
             ngModelController.$modelValue
@@ -22,5 +26,5 @@ angular
             _get(cepValue)
           )
         else
-          viaCepHelper.registerMapper(scope.viacepKey, ngModelController)
+          addressController.registerMapper(scope.viacepKey, ngModelController)
   ]

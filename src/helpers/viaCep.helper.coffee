@@ -5,32 +5,15 @@ angular
     'viaCep'
     '$q'
     'VALID_KEYS'
-    (viaCep, $q) ->
+    (viaCep, $q, VALID_KEYS) ->
       service = {}
-      # _mappers = {}
-      # VALID_KEYS = [
-      #   'cep'
-      #   'logradouro'
-      #   'complemento'
-      #   'bairro'
-      #   'localidade'
-      #   'uf'
-      #   'unidade'
-      #   'ibge'
-      #   'gia'
-      # ]
 
-      # #migrate
-      # _registerMapper = (viacepKey, modelController) ->
-      #   throw new TypeError "viacep key must be one of: #{VALID_KEYS}" if not _isValidKey(viacepKey)
-      #   _mappers[viacepKey] = modelController
-
-      _fillAddress = (address) ->
+      _fillAddress = (address, mappers) ->
         for key in VALID_KEYS
-          if _mappers[key] != undefined
-            _mappers[key].$setViewValue(address[key])
-            # _mappers[key].$commitViewValue()
-            _mappers[key].$render()
+          if mappers[key] != undefined
+            mappers[key].$setViewValue(address[key])
+            # mappers[key].$commitViewValue()
+            mappers[key].$render()
 
       _cleanAddress = (address) ->
         for key in VALID_KEYS
@@ -38,12 +21,12 @@ angular
             _mappers[key].$setViewValue('')
             _mappers[key].$render()
 
-      _get = (cepValue) ->
+      _get = (cepValue, mappers) ->
         deferred = $q.defer()
         viaCep.get(cepValue)
         .then (response) ->
           deferred.resolve()
-          _fillAddress(response)
+          _fillAddress(response, mappers)
         , (response) ->
           deferred.reject()
           _cleanAddress()

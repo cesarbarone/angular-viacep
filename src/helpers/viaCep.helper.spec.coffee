@@ -42,6 +42,13 @@ describe 'angular-viacep:viaCepHelper', ->
       @viaCepHelper.get(validCep)
       expect(@viaCep.get).toHaveBeenCalledWith(validCep)
 
+    xit 'should call #fillAddress with cep and mappers', ->
+      spyOn(@viaCepHelper, 'fillAddress')
+      mappers = []
+      validCep = '08465312'
+      @viaCepHelper.get(validCep, mappers)
+      expect(@viaCepHelper.fillAddress).toHaveBeenCalledWith(validCep, mappers)
+
   xdescribe '#get promise', ->
 
     beforeEach ->
@@ -70,28 +77,22 @@ describe 'angular-viacep:viaCepHelper', ->
 
     beforeEach ->
       @address =
-        "cep": "01001-000"
         "logradouro": "Praça da Sé"
-        "complemento": "lado ímpar"
-        "bairro": "Sé"
-        "localidade": "São Paulo"
-        "uf": "SP"
-        "unidade": "1"
-        "ibge": "3550308"
-        "gia": "1004"
 
-    xit 'should smoke', ->
-      keys = ['cep', 'logradouro', 'complemento', 'bairro', 'localidade', 'uf', 'unidade', 'ibge', 'gia']
-      for key in keys
-        ngModelController =
-          $setViewValue: ->
-            return null
-          $render: ->
-            return null
+    it 'should smoke', ->
+      key = 'logradouro'
+      ngModelController =
+        $setViewValue: ->
+          return null
+        $render: ->
+          return null
+      # for key in keys
+      mappers = {
+        'logradouro': ngModelController
+      }
 
-        spyOn(ngModelController, '$setViewValue')
-        spyOn(ngModelController, '$render')
-        @viaCepHelper.registerMapper(key, ngModelController)
-        @viaCepHelper.fillAddress(@address)
-        expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
-        expect(ngModelController.$render).toHaveBeenCalled()
+      spyOn(ngModelController, '$setViewValue')
+      spyOn(ngModelController, '$render')
+      @viaCepHelper.fillAddress(@address, mappers)
+      expect(ngModelController.$setViewValue).toHaveBeenCalledWith(@address[key])
+      expect(ngModelController.$render).toHaveBeenCalled()
