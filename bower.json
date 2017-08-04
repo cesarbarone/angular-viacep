@@ -23,10 +23,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.5.x"
+    "angular": "~1.5.x"
   },
   "devDependencies": {
-    "angular-mocks": "1.x",
-    "angular-scenario": "1.x"
+    "angular-mocks": "~1.5.x",
+    "angular-scenario": "~1.5.x"
   }
 }
