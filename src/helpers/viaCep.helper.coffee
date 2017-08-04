@@ -16,11 +16,11 @@ angular
               ngModelController.$setViewValue(address[key])
               ngModelController.$render()
 
-      _cleanAddress = (address) ->
+      _cleanAddress = (mappers) ->
         for key in VALID_KEYS
-          if _mappers[key] != undefined
-            _mappers[key].$setViewValue('')
-            _mappers[key].$render()
+          if mappers[key] != undefined
+            mappers[key].$setViewValue('')
+            mappers[key].$render()
 
       _get = (cepValue, mappers) ->
         deferred = $q.defer()
@@ -40,7 +40,9 @@ angular
         true
 
       _isValidCep = (cepValue) ->
-        return false if cepValue is '' or cepValue is null or cepValue is undefined
+        if cepValue is ''
+          return false
+        return false if cepValue is null or cepValue is undefined
         formatedCep = cepValue.replace(/\D/g, '')
         return false if formatedCep.length != 8
         true
@@ -49,6 +51,7 @@ angular
       service.get            = _get
       service.isValidCep     = _isValidCep
       service.isValidKey     = _isValidKey
+      service.cleanAddress   = _cleanAddress
 
       service
   ]

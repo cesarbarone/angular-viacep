@@ -21,3 +21,12 @@ describe 'angular-viacep::viacep', ->
     ctrl.$setViewValue('88054600')
     @httpBackend.flush()
     expect(@scope.address.address).toEqual 'Beira Mar'
+
+  it 'should fill address', ->
+    ctrl = @element.find('input').controller('ngModel')
+    ctrl.$setViewValue('88054600')
+    @httpBackend.flush()
+    expect(@scope.address.address).toEqual 'Beira Mar'
+    ctrl.$setViewValue('')
+    @scope.$digest()
+    expect(@scope.address.address).toEqual ''

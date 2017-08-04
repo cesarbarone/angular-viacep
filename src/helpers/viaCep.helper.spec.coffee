@@ -116,3 +116,23 @@ describe 'angular-viacep:viaCepHelper', ->
       @viaCepHelper.fillAddress(@address, mappers)
       expect(ngModelController.$setViewValue).not.toHaveBeenCalled()
       expect(ngModelController.$render).not.toHaveBeenCalled()
+
+  describe '#cleanAddress', ->
+
+    it 'should clean address', ->
+      key = 'logradouro'
+      ngModelController =
+        $setViewValue: ->
+          return null
+        $render: ->
+          return null
+      # for key in keys
+      mappers = {
+        'logradouro': ngModelController
+      }
+
+      spyOn(ngModelController, '$setViewValue')
+      spyOn(ngModelController, '$render')
+      @viaCepHelper.cleanAddress(mappers)
+      expect(ngModelController.$setViewValue).toHaveBeenCalledWith('')
+      expect(ngModelController.$render).toHaveBeenCalled()

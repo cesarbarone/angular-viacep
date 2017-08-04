@@ -38,4 +38,10 @@ describe 'angular-viacep::viacep', ->
       @ctrl.get(cep)
       expect(@helper.get).toHaveBeenCalledWith(cep, @ctrl.mappers)
 
+  describe "#cleanAddress", ->
+
+    it 'should call viaCepHelper#cleanAddress with mappers', ->
+      spyOn(@helper, 'cleanAddress')
+      @ctrl.cleanAddress()
+      expect(@helper.cleanAddress).toHaveBeenCalled()
 

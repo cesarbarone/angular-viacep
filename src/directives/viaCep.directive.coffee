@@ -18,6 +18,9 @@ angular
             ,() ->
               ngModelController.$setValidity('cep', false)
             )
+          else
+            addressController.cleanAddress()
+
 
         if scope.viacepKey == 'cep'
           scope.$watch(() ->
