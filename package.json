@@ -1,6 +1,6 @@
 {
   "name": "angular-viacep",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Módulo Angular para integração com a WebService ViaCep",
   "main": "index.js",
   "scripts": {
